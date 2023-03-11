@@ -1,34 +1,23 @@
 import React, { useState } from 'react';
-
+import axios from "axios";
 const FormDamage = () => {
-    let [imgString, setImgString] = useState("")
-
-    const getBase64 = async (e) => {
-
-        const file = e.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = (event) => {
-            setImgString(event.target.result);
-        };
-
-        reader.readAsBinaryString(file);
-    }
-
     let handlerForm = async (e) => {
         e.preventDefault()
+        let image = e.target.image.files[0];
+        let formData = new FormData();
+        formData.append("image", image);
+
         let myHeaders = new Headers();
         myHeaders.set('Content-Type', "multipart/form-data")
         myHeaders.set('Accept', "application/json")
-        if (imgString) {
-            let res = await fetch("http://ec2-54-74-190-189.eu-west-1.compute.amazonaws.com:5000/predict_damages/", {
-                method: "POST",
-                myHeaders,
-                body: JSON.stringify(imgString)
-            })
-            let data = await res.json()
-            console.log(data);
-        }
+        let url = "http://ec2-54-74-190-189.eu-west-1.compute.amazonaws.com:5000/predict_damages/";
+        let config = {
+            myHeaders
+        };
+
+        const result = await axios.post(url, formData, config);
+        let data = await result.json()
+        console.log(data);
     }
 
 
@@ -42,7 +31,6 @@ const FormDamage = () => {
                     <div className="card-body">
                         <form onSubmit={handlerForm} className="flex gap-5">
                             <input type="file" name="image" className="file-input file-input-bordered file-input-accent w-full max-w-xs" accept="image/png, image/gif, image/jpeg"
-                                onChange={getBase64}
                             />
                             <input type="submit" className='btn btn-info btn-outline' value="SUBMIT" />
                         </form>
