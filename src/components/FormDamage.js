@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import TableDamage from './TableDamage';
 const FormDamage = () => {
-    let handlerForm = async (e) => {
-        e.preventDefault()
-        let image = e.target.image.files[0];
-        let formData = new FormData();
-        formData.append("image", image);
 
-        let myHeaders = new Headers();
-        myHeaders.set('Content-Type', "multipart/form-data")
-        myHeaders.set('Accept', "application/json")
-        let url = "http://ec2-54-74-190-189.eu-west-1.compute.amazonaws.com:5000/predict_damages/";
-        let config = {
-            myHeaders
-        };
+    const [errordamage, setErrorDamage] = useState(true);
+    const [damageData, setDamageData] = useState(null);
 
-        const result = await axios.post(url, formData, config);
-        let data = await result.json()
-        console.log(data);
-    }
+    const [loading, setLoading] = useState(false);
+
+    const handlerForm = async (e) => {
+        e.preventDefault();
+        const fileData = new FormData();
+        const fileDamage = e.target?.image?.files[0];
+        if (!fileDamage) return setErrorDamage(true);
+
+        setLoading(true);
+
+        fileData.append("file", fileDamage);
+
+        const url =
+            "http://ec2-54-74-190-189.eu-west-1.compute.amazonaws.com:5000/predict_damages/";
+
+        const res = await fetch(url, {
+            method: "POST",
+            body: fileData,
+        });
+        const data = await res.json();
+        setDamageData(data);
+        setLoading(false);
+    };
 
 
     return (
@@ -29,12 +39,22 @@ const FormDamage = () => {
                 </div>
                 <div className="card flex-shrink-0 w-full  shadow-2xl bg-base-100">
                     <div className="card-body">
-                        <form onSubmit={handlerForm} className="flex gap-5">
+                        <form onSubmit={handlerForm} className="flex gap-5 mx-auto">
                             <input type="file" name="image" className="file-input file-input-bordered file-input-accent w-full max-w-xs" accept="image/png, image/gif, image/jpeg"
                             />
-                            <input type="submit" className='btn btn-info btn-outline' value="SUBMIT" />
+                            {
+                                loading ? <div className='h-10 w-10 animate-spin border-4 border-l-0 border-r-0 rounded-full border-red-500'></div> :
+                                    <input type="submit" className='btn btn-info btn-outline' value="SUBMIT" />
+                            }
                         </form>
                     </div>
+                    {
+                        damageData &&
+                        <div className='bg-base-300 rounded-lg'>
+                            <p className='text-center text-xl p-5'>{damageData?.damage_model}</p>
+                            <TableDamage data={damageData?.damages} />
+                        </div>
+                    }
                 </div>
             </div>
         </div>
