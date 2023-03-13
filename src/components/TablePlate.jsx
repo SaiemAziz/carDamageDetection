@@ -15,11 +15,11 @@ const TablePlate = ({ data }) => {
                     {
                         data.map(({ coords, text }, i) => <tr
                             className='border-2 border-base-200'
-                            key={i}>
+                            key={text + " " + i}>
                             <th>{i + 1}</th>
                             <td>
                                 {
-                                    coords.map((item, i) => <p key={item}>{item}</p>)
+                                    coords.map((item, i) => <p key={item + " " + i}>{item}{i < 3 && ','}</p>)
                                 }
                             </td>
                             <td>{text}</td>

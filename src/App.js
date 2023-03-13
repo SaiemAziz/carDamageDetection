@@ -5,7 +5,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className='min-h-screen' data-theme="luxury">
+    <div className='min-h-screen'>
       <RouterProvider router={routes} />
     </div>
   );

@@ -12,23 +12,25 @@ const TableDamage = ({ data }) => {
                         <th>Severty Model</th>
                         <th>Severty</th>
                         <th>Type</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody className='bg-base-300'>
                     {
-                        data.map(({ action, coords, severity, severity_model, type }, i) => <tr
+                        data.map(({ price, action, coords, severity, severity_model, type }, i) => <tr
                             className='border-2 border-base-200'
-                            key={severity}>
+                            key={severity + " " + i}>
                             <th>{i + 1}</th>
                             <td>{action}</td>
                             <td>
                                 {
-                                    coords.map((item, i) => <p key={item}>{item}</p>)
+                                    coords.map((item, i) => <p key={item + " " + i}>{item}{i < 3 && ','}</p>)
                                 }
                             </td>
                             <td>{severity_model}</td>
                             <td>{severity}</td>
                             <td>{type}</td>
+                            <td>{price}</td>
                         </tr>
                         )
 
