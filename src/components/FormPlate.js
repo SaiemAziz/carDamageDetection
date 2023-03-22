@@ -53,7 +53,7 @@ const FormPlate = () => {
                                     <div className='h-10 w-10 animate-spin border-4 border-l-0 border-r-0 rounded-full border-red-500'></div>
                                     <p className='flex'>{percentage}</p>
                                 </div> :
-                                    <input type="submit" className='btn btn-info btn-outline' value="SUBMIT" />
+                                    <input type="submit" className='btn btn-info' value="SUBMIT" />
                             }
                         </form>
                     </div>
