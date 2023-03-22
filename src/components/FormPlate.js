@@ -20,7 +20,7 @@ const FormPlate = () => {
             fileData.append("file", fileDamage);
 
             const url =
-                "http://ec2-54-74-190-189.eu-west-1.compute.amazonaws.com:5000/predict_plate/";
+                "http://ec2-54-74-190-189.eu-west-1.compute.amazonaws.com:5000/predict_plates";
 
             const res = await fetch(url, {
                 method: "POST",
@@ -62,7 +62,8 @@ const FormPlate = () => {
                             plateData.map((item, i) => <div
                                 key={"plateData " + i}
                                 className='bg-base-300 rounded-lg'>
-                                <p className='text-center text-xl p-5'>{item?.plate_model}</p>
+                                <p className='text-center text-sm font-bold p-5 pb-0'>{item?.plates[0]?.file}</p>
+                                <p className='text-center text-xl p-5 pt-2'>{item?.plate_model}</p>
                                 <TablePlate data={item?.plates} />
                             </div>
                             )

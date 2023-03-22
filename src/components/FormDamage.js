@@ -73,7 +73,8 @@ const FormDamage = () => {
                             damageData.map((item, i) => <div
                                 key={"damagedata " + i}
                                 className='bg-base-300 rounded-lg'>
-                                <p className='text-center text-xl p-5'>{item?.damage_model}</p>
+                                <p className='text-center text-sm font-bold p-5 pb-0'>{item?.damages[0]?.file}</p>
+                                <p className='text-center text-xl p-5 pt-2'>{item?.damage_model}</p>
                                 <TableDamage data={item?.damages} />
                             </div>
                             )
